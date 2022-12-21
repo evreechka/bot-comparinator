@@ -23,7 +23,6 @@ import java.io.File;
 public class BotServiceConsumer {
 
     private final PhotoBot photoBot;
-    private final RestTemplate restTemplate;
 
     @KafkaListener(groupId = "photo-bot", topics = "response_compare_topic")
     @SneakyThrows
