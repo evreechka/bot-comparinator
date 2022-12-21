@@ -34,7 +34,7 @@ public class YandexFaceWorker extends MessageListenerAdapter {
         System.out.println(currentPhotoHash);
         List<ImageEntity> photosFromDb = imageComparatorService.getPhotosByCategory(photoDto.getCategory());
         BigInteger min = imageComparatorService.compareImage(photosFromDb.get(0).getPhoto(), currentPhotoHash);
-        ImageEntity selectedPhoto = null;
+        ImageEntity selectedPhoto = photosFromDb.get(0);
         for (ImageEntity imageEntity : photosFromDb) {
             BigInteger difference = imageComparatorService.compareImage(imageEntity.getPhoto(), currentPhotoHash);
             System.out.println(imageEntity.getDescription());

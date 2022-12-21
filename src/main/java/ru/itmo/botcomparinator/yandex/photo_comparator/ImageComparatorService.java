@@ -30,7 +30,7 @@ public class ImageComparatorService {
         return hex.toString();
     }
 
-    public BigInteger compareImage(byte[] photoData, BigInteger currentPhotoHash) throws IOException, NoSuchAlgorithmException {
+    public BigInteger compareImage(byte[] photoData, BigInteger currentPhotoHash) throws NoSuchAlgorithmException {
         return getImageHash(photoData).subtract(currentPhotoHash).abs();
     }
 
