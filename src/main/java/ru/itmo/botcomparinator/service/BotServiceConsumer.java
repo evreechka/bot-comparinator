@@ -26,7 +26,7 @@ public class BotServiceConsumer {
         System.out.println(resultDto.getMessage());
         File dir = new File("./uploads");
         dir.mkdirs();
-        File newFile = new File("./uploads/photo.jpeg");
+        File newFile = new File("./uploads/photo");
         newFile.canWrite();
         newFile.canRead();
         FileUtils.writeByteArrayToFile(newFile, resultDto.getResponsePhoto());
