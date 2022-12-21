@@ -14,6 +14,7 @@ import ru.itmo.botcomparinator.PhotoBot;
 import ru.itmo.botcomparinator.config.TelegramConfigProperties;
 import ru.itmo.botcomparinator.model.ResultDto;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 @Service
@@ -35,8 +36,8 @@ public class BotServiceConsumer {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
         System.out.println(resultDto.getMessage());
-        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
-        uploadFile(resultDto.getChatId(), byteArrayResource);
+//        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
+        uploadFile(resultDto.getChatId(), createPhotoFileResource(resultDto.getResponsePhoto()), resultDto.getMessage());
 //        File dir = new File("./uploads");
 //        dir.mkdirs();
 //        File newFile = new File("./uploads/photo");
@@ -49,10 +50,9 @@ public class BotServiceConsumer {
 //        sendDocument.setCaption(resultDto.getMessage());
 //        dir.delete();
 //        photoBot.sendPhoto(sendDocument);
-        photoBot.sendMessage(resultDto.getChatId(), resultDto.getMessage());
     }
 
-    private void uploadFile(String chatId, ByteArrayResource value) {
+    private void uploadFile(String chatId, ByteArrayResource value, String message) {
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("photo", value);
 
@@ -61,14 +61,32 @@ public class BotServiceConsumer {
 
         HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 
-        try {
+//        try {
             restTemplate.exchange(
                     MessageFormat.format("{0}bot{1}/sendDocument?chat_id={2}", telegramUrl, telegramBotToken, chatId),
                     HttpMethod.POST,
                     requestEntity,
                     String.class);
-        } catch (Exception e) {
-            photoBot.sendMessage(chatId, "Some errors :(");
-        }
+        photoBot.sendMessage(chatId, message);
+
+//        } catch (Exception e) {
+//            photoBot.sendMessage(chatId, "Some errors :(");
+//        }
     }
+
+    public static ByteArrayResource createPhotoFileResource(byte[] array)
+            throws IOException {
+        return new ByteArrayResource(array) {
+            @Override
+            public String getFilename() {
+                return "photo.jpg";
+            }
+        };
+    }
+
+//    private static Path createPhotoFile(byte[] array) throws IOException {
+//        File file = File.createTempFile("photo", "jpg");
+//        FileUtils.writeByteArrayToFile(file, array);
+//        return file.toPath();
+//    }
 }
