@@ -2,6 +2,7 @@
 .idea
 .mvn
 mvnw.cmd
+mvnw
 HELP.md
 *.iml
 target
