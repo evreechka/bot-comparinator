@@ -11,6 +11,7 @@ import ru.itmo.botcomparinator.model.ResultDto;
 import ru.itmo.botcomparinator.yandex.db.ImageEntity;
 import ru.itmo.botcomparinator.yandex.photo_comparator.ImageComparatorService;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -28,14 +29,17 @@ public class YandexFaceWorker extends MessageListenerAdapter {
     @SneakyThrows
     @KafkaListener(groupId = "photo-bot", topics = "request_compare_topic")
     public void consumePhotoRequest(PhotoDto photoDto) {
-        Long currentPhotoHash = imageComparatorService.getImageHash(photoDto.getPhotoData());
+        BigInteger currentPhotoHash = imageComparatorService.getImageHash(photoDto.getPhotoData());
+        System.out.println("Current photo");
+        System.out.println(currentPhotoHash);
         List<ImageEntity> photosFromDb = imageComparatorService.getPhotosByCategory(photoDto.getCategory());
-        Long min = imageComparatorService.compareImage(photosFromDb.get(0).getPhoto(), currentPhotoHash);
-        ImageEntity selectedPhoto = photosFromDb.get(0);
+        BigInteger min = imageComparatorService.compareImage(photosFromDb.get(0).getPhoto(), currentPhotoHash);
+        ImageEntity selectedPhoto = null;
         for (ImageEntity imageEntity : photosFromDb) {
-            Long difference = imageComparatorService.compareImage(imageEntity.getPhoto(), currentPhotoHash);
+            BigInteger difference = imageComparatorService.compareImage(imageEntity.getPhoto(), currentPhotoHash);
             System.out.println(imageEntity.getDescription());
-            System.out.println(difference.longValue());
+            System.out.println(min);
+            System.out.println(difference);
             if (min.compareTo(difference) > 0) {
                 min = difference;
                 selectedPhoto = imageEntity;
@@ -47,6 +51,5 @@ public class YandexFaceWorker extends MessageListenerAdapter {
         resultDto.setResponsePhoto(selectedPhoto.getPhoto());
         System.out.println("Send to kafka queue response photo");
         kafkaYandexWorkerTemplate.send("response_compare_topic", resultDto);
-
     }
 }
