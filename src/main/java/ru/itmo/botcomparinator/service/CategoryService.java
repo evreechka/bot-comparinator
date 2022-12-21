@@ -20,4 +20,7 @@ public class CategoryService {
     public void deleteCategory(String chatId) {
         categories.remove(chatId);
     }
+    public String getCategory(String chatId) {
+        return categories.get(chatId);
+    }
 }

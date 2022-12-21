@@ -69,7 +69,7 @@ public class MessageHandler {
 
     private SendMessage sendPhoto(String chatId, String photoId) {
         try {
-            botServiceProducer.sendPhoto(chatId, photoId);
+            botServiceProducer.sendPhoto(chatId, photoId, categoryService.getCategory(chatId));
             categoryService.deleteCategory(chatId);
             return new SendMessage(chatId, BotMessage.WAIT_MESSAGE.getText());
         } catch (Exception e) {

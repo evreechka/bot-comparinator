@@ -34,9 +34,9 @@ public class BotServiceProducer {
         this.restTemplate = new RestTemplate();
     }
 
-    public void sendPhoto(String chatId, String photoId) {
+    public void sendPhoto(String chatId, String photoId, String category) {
         System.out.println("Send to kafka queue photoDto");
-        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), chatId);
+        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), category);
         kafkaTemplate.send("request_compare_topic", photoDto);
     }
 
