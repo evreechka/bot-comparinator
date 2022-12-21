@@ -16,6 +16,7 @@ import ru.itmo.botcomparinator.model.ResultDto;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 @Service
 public class BotServiceConsumer {
@@ -36,6 +37,7 @@ public class BotServiceConsumer {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
         System.out.println(resultDto.getMessage());
+        System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
 //        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
         uploadFile(resultDto.getChatId(), createPhotoFileResource(resultDto.getResponsePhoto()), resultDto.getMessage());
 //        File dir = new File("./uploads");
