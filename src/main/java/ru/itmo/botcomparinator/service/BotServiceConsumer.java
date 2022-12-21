@@ -63,7 +63,7 @@ public class BotServiceConsumer {
 
 //        try {
             restTemplate.exchange(
-                    MessageFormat.format("{0}bot{1}/sendDocument?chat_id={2}", telegramUrl, telegramBotToken, chatId),
+                    MessageFormat.format("{0}bot{1}/sendPhoto?chat_id={2}", telegramUrl, telegramBotToken, chatId),
                     HttpMethod.POST,
                     requestEntity,
                     String.class);
