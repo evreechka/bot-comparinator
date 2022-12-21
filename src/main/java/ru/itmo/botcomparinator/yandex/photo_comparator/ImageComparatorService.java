@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.itmo.botcomparinator.yandex.db.ImageEntity;
 import ru.itmo.botcomparinator.yandex.db.ImageRepository;
 
-import java.io.IOException;
-import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -30,17 +28,18 @@ public class ImageComparatorService {
         return hex.toString();
     }
 
-    public BigInteger compareImage(byte[] photoData, BigInteger currentPhotoHash) throws IOException, NoSuchAlgorithmException {
-        return getImageHash(photoData).subtract(currentPhotoHash).abs();
+    public Long compareImage(byte[] photoData, Long currentPhotoHash) throws NoSuchAlgorithmException {
+        return Math.abs(getImageHash(photoData) - currentPhotoHash);
     }
 
-    public BigInteger getImageHash(byte[] photoData) throws IOException, NoSuchAlgorithmException {
+    public Long getImageHash(byte[] photoData) throws NoSuchAlgorithmException {
 
         System.out.println("Start MD5 Digest");
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(photoData);
         byte[] hash = md.digest();
-        return new BigInteger(getHexString(hash), 16);
+//        return new Long(hash);
+        return Long.parseLong(getHexString(hash), 16);
     }                                       // Belongs to main class
 
     public List<ImageEntity> getPhotosByCategory(String category) {
