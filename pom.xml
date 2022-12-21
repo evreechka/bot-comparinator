@@ -38,6 +38,11 @@
             <version>2.11.0</version>
         </dependency>
         <dependency>
+            <groupId>de.raysha.lib.telegram</groupId>
+            <artifactId>bot-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

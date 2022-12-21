@@ -1,5 +1,9 @@
 package ru.itmo.botcomparinator;
 
+import de.raysha.lib.telegram.bot.api.BotAPI;
+import de.raysha.lib.telegram.bot.api.TelegramBot;
+import de.raysha.lib.telegram.bot.api.exception.BotException;
+import de.raysha.lib.telegram.bot.api.model.ChatId;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -51,10 +56,11 @@ public class PhotoBot extends TelegramLongPollingBot {
         return null;
     }
 
-    public void sendPhoto(SendDocument sendPhoto) {
+    public void sendPhoto(String chatId, java.io.File file) {
         try {
-            execute(sendPhoto);
-        } catch (TelegramApiException e) {
+            BotAPI botAPI = new TelegramBot(botToken);
+            botAPI.sendPhoto(new ChatId(chatId), file);
+        } catch (BotException e) {
             e.printStackTrace();
         }
     }
