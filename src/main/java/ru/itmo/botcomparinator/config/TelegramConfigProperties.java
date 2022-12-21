@@ -10,5 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class TelegramConfigProperties {
     String url;
     String botName;
+    String username;
     String botToken;
 }

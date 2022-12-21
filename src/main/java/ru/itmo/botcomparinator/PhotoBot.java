@@ -32,7 +32,7 @@ public class PhotoBot extends TelegramLongPollingBot {
                         TelegramConfigProperties telegramConfigProperties) throws TelegramApiException {
         this.messageHandler = messageHandler;
         this.callbackQueryHandler = callbackQueryHandler;
-        this.botUsername = telegramConfigProperties.getBotName();
+        this.botUsername = telegramConfigProperties.getUsername();
         this.botToken = telegramConfigProperties.getBotToken();
 
         telegramBotsApi.registerBot(this);
