@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -50,7 +51,7 @@ public class PhotoBot extends TelegramLongPollingBot {
         return null;
     }
 
-    public void sendPhoto(SendPhoto sendPhoto) {
+    public void sendPhoto(SendDocument sendPhoto) {
         try {
             execute(sendPhoto);
         } catch (TelegramApiException e) {
