@@ -32,9 +32,9 @@ public class BotServiceConsumer {
         FileUtils.writeByteArrayToFile(newFile, resultDto.getResponsePhoto());
         SendDocument sendDocument = new SendDocument();
         sendDocument.setChatId(resultDto.getChatId());
-        sendDocument.setDocument(new InputFile("./uploads/photo.jpg"));
+        sendDocument.setDocument(new InputFile(newFile));
         sendDocument.setCaption(resultDto.getMessage());
-
+        dir.delete();
         photoBot.sendPhoto(sendDocument);
     }
 }
