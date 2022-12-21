@@ -36,8 +36,8 @@ public class KafkaProducerConfig {
                 ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
         configProps.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-        configProps.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-        configProps.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"user_mari\" password=\"qwerty12345\";");
+        configProps.put(SaslConfigs.SASL_MECHANISM, "SCRAM-SHA-512");
+        configProps.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"user_mari\" password=\"qwerty12345\";");
         return configProps;
     }
 

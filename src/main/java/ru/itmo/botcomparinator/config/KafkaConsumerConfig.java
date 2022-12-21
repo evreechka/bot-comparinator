@@ -38,7 +38,7 @@ public class KafkaConsumerConfig {
                 JsonSerializer.class);
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "photo-bot");
         configProps.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-        configProps.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+        configProps.put(SaslConfigs.SASL_MECHANISM, "SCRAM-SHA-512");
         configProps.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"user_mari\" password=\"qwerty12345\";");
         return configProps;
     }
@@ -76,8 +76,8 @@ public class KafkaConsumerConfig {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "rc1a-8or9ad4qd22jf1gu.mdb.yandexcloud.net:9091");
         configs.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-        configs.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-        configs.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"user_mari\" password=\"qwerty12345\";");
+        configs.put(SaslConfigs.SASL_MECHANISM, "SCRAM-SHA-512");
+        configs.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"user_mari\" password=\"qwerty12345\";");
 
         return new KafkaAdmin(configs);
     }
