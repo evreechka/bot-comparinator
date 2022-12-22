@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResultDto {
     String chatId;
+    String caption;
     byte[] responsePhoto;
 }

@@ -46,6 +46,7 @@ public class YandexFaceWorker extends MessageListenerAdapter {
         }
         ResultDto resultDto = new ResultDto();
         resultDto.setChatId(photoDto.getChatId());
+        resultDto.setCaption(selectedPhoto.getDescription());
         resultDto.setResponsePhoto(selectedPhoto.getPhoto());
         System.out.println("Send to kafka queue response photo");
         kafkaYandexWorkerTemplate.send("response_compare_topic", resultDto);

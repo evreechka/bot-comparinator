@@ -27,8 +27,8 @@ public class BotServiceProducer {
     private final String telegramBotToken;
     private final RestTemplate restTemplate;
     private final KafkaTemplate<String, PhotoDto> kafkaTemplate;
-//    @Autowired
-//            private ImageRepository imageRepository;
+    @Autowired
+            private ImageRepository imageRepository;
 
 
     BotServiceProducer(TelegramConfigProperties telegramConfigProperties,
@@ -39,14 +39,15 @@ public class BotServiceProducer {
         this.restTemplate = new RestTemplate();
     }
 
-    public void sendPhoto(String chatId, String photoId, String category) {
+    public void sendPhoto(String chatId, String photoId, String category, String caption) {
         System.out.println("Send to kafka queue photoDto");
-//        ImageEntity imageEntity = new ImageEntity();
-//        imageEntity.setCategory(category);
-//        imageEntity.setPhoto(getDocumentFile(photoId));
-//        imageRepository.save(imageEntity);
-        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), category);
-        kafkaTemplate.send("request_compare_topic", photoDto);
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setCategory(category);
+        imageEntity.setDescription(caption);
+        imageEntity.setPhoto(getDocumentFile(photoId));
+        imageRepository.save(imageEntity);
+//        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), category);
+//        kafkaTemplate.send("request_compare_topic", photoDto);
     }
 
     private byte[] getDocumentFile(String fileId) {

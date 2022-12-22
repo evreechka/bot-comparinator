@@ -21,6 +21,9 @@ public class ImageEntity {
     @Column(name = "photo_category")
     private String category;
 
+    @Column(name = "description")
+    private String description;
+
     @Lob
     @Column(name = "photo")
     @Type(type = "org.hibernate.type.BinaryType")

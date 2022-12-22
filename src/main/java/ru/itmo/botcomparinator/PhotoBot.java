@@ -59,14 +59,6 @@ public class PhotoBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(String chatId, String message) {
-        try {
-            execute(new SendMessage(chatId, message));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onUpdateReceived(Update update) {
         try {
