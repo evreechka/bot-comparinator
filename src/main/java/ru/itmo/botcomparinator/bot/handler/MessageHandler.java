@@ -31,7 +31,7 @@ public class MessageHandler {
 //                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
 //            }
 //            if (categoryService.isCategorySelected(chatId)) {
-                return sendPhoto(chatId, message.getDocument().getFileId(), message.getText());
+                return sendPhoto(chatId, message.getDocument().getFileId(), message.getCaption());
 //            }
 //            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
         }
