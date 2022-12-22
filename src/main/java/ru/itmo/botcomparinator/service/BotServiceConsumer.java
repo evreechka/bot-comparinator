@@ -40,7 +40,7 @@ public class BotServiceConsumer {
     public void consumePhotoResponse(ResultDto resultDto) {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
-        System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
+//        System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
 //        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
 //        uploadFile(resultDto.getChatId(), byteArrayResource);
 //        File dir = new File("./uploads");
