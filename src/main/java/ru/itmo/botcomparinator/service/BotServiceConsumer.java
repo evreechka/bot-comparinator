@@ -10,10 +10,14 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import ru.itmo.botcomparinator.PhotoBot;
 import ru.itmo.botcomparinator.config.TelegramConfigProperties;
 import ru.itmo.botcomparinator.model.ResultDto;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -37,8 +41,8 @@ public class BotServiceConsumer {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
         System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
-        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
-        uploadFile(resultDto.getChatId(), byteArrayResource);
+//        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
+//        uploadFile(resultDto.getChatId(), byteArrayResource);
 //        File dir = new File("./uploads");
 //        dir.mkdirs();
 //        File newFile = new File("./uploads/photo");
@@ -51,6 +55,10 @@ public class BotServiceConsumer {
 //        sendDocument.setCaption(resultDto.getMessage());
 //        dir.delete();
 //        photoBot.sendPhoto(sendDocument);
+        SendPhoto photo = new SendPhoto();
+        photo.setPhoto(new InputFile(new ByteArrayInputStream(resultDto.getResponsePhoto()), "photo"));
+        photo.setChatId(resultDto.getChatId());
+        photoBot.sendPhoto(photo);
     }
 
     private void uploadFile(String chatId, ByteArrayResource value) {
@@ -74,15 +82,15 @@ public class BotServiceConsumer {
 //        }
     }
 
-//    public static ByteArrayResource createPhotoFileResource(byte[] array)
-//            throws IOException {
-//        return new ByteArrayResource(array) {
-//            @Override
-//            public String getFilename() {
-//                return "photo.jpg";
-//            }
-//        };
-//    }
+    public static ByteArrayResource createPhotoFileResource(byte[] array)
+            throws IOException {
+        return new ByteArrayResource(array) {
+            @Override
+            public String getFilename() {
+                return "photo.jpg";
+            }
+        };
+    }
 
 //    private static Path createPhotoFile(byte[] array) throws IOException {
 //        File file = File.createTempFile("photo", "jpg");
