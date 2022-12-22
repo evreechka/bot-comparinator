@@ -1,6 +1,7 @@
 package ru.itmo.botcomparinator.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import ru.itmo.botcomparinator.config.TelegramConfigProperties;
 import ru.itmo.botcomparinator.model.PhotoDto;
+import ru.itmo.botcomparinator.yandex.db.ImageEntity;
+import ru.itmo.botcomparinator.yandex.db.ImageRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
@@ -24,6 +27,8 @@ public class BotServiceProducer {
     private final String telegramBotToken;
     private final RestTemplate restTemplate;
     private final KafkaTemplate<String, PhotoDto> kafkaTemplate;
+    @Autowired
+            private ImageRepository imageRepository;
 
 
     BotServiceProducer(TelegramConfigProperties telegramConfigProperties,
@@ -36,8 +41,12 @@ public class BotServiceProducer {
 
     public void sendPhoto(String chatId, String photoId, String category) {
         System.out.println("Send to kafka queue photoDto");
-        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), category);
-        kafkaTemplate.send("request_compare_topic", photoDto);
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setCategory(category);
+        imageEntity.setPhoto(getDocumentFile(photoId));
+        imageRepository.save(imageEntity);
+//        PhotoDto photoDto = new PhotoDto(chatId, getDocumentFile(photoId), category);
+//        kafkaTemplate.send("request_compare_topic", photoDto);
     }
 
     private byte[] getDocumentFile(String fileId) {

@@ -28,13 +28,13 @@ public class MessageHandler {
         String chatId = message.getChatId().toString();
 
         if (message.hasDocument()) {
-            if (!isValidFileFormat(message.getDocument())) {
-                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
-            }
-            if (categoryService.isCategorySelected(chatId)) {
+//            if (!isValidFileFormat(message.getDocument())) {
+//                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
+//            }
+//            if (categoryService.isCategorySelected(chatId)) {
                 return sendPhoto(chatId, message.getDocument().getFileId());
-            }
-            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
+//            }
+//            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
         }
 
         String inputText = message.getText();
