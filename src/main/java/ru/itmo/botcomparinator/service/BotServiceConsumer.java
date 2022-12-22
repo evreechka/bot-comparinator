@@ -36,10 +36,9 @@ public class BotServiceConsumer {
     public void consumePhotoResponse(ResultDto resultDto) {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
-        System.out.println(resultDto.getMessage());
         System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
 //        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
-        uploadFile(resultDto.getChatId(), createPhotoFileResource(resultDto.getResponsePhoto()), resultDto.getMessage());
+        uploadFile(resultDto.getChatId(), createPhotoFileResource(resultDto.getResponsePhoto()));
 //        File dir = new File("./uploads");
 //        dir.mkdirs();
 //        File newFile = new File("./uploads/photo");
@@ -54,7 +53,7 @@ public class BotServiceConsumer {
 //        photoBot.sendPhoto(sendDocument);
     }
 
-    private void uploadFile(String chatId, ByteArrayResource value, String message) {
+    private void uploadFile(String chatId, ByteArrayResource value) {
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("photo", value);
 
@@ -69,7 +68,6 @@ public class BotServiceConsumer {
                     HttpMethod.POST,
                     requestEntity,
                     String.class);
-        photoBot.sendMessage(chatId, message);
 
 //        } catch (Exception e) {
 //            photoBot.sendMessage(chatId, "Some errors :(");
