@@ -37,8 +37,8 @@ public class BotServiceConsumer {
         System.out.println("Receive from kafka result");
         System.out.println(resultDto.getChatId());
         System.out.println(Arrays.toString(resultDto.getResponsePhoto()));
-//        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
-        uploadFile(resultDto.getChatId(), createPhotoFileResource(resultDto.getResponsePhoto()));
+        ByteArrayResource byteArrayResource = new ByteArrayResource(resultDto.getResponsePhoto());
+        uploadFile(resultDto.getChatId(), byteArrayResource);
 //        File dir = new File("./uploads");
 //        dir.mkdirs();
 //        File newFile = new File("./uploads/photo");
@@ -74,15 +74,15 @@ public class BotServiceConsumer {
 //        }
     }
 
-    public static ByteArrayResource createPhotoFileResource(byte[] array)
-            throws IOException {
-        return new ByteArrayResource(array) {
-            @Override
-            public String getFilename() {
-                return "photo.jpg";
-            }
-        };
-    }
+//    public static ByteArrayResource createPhotoFileResource(byte[] array)
+//            throws IOException {
+//        return new ByteArrayResource(array) {
+//            @Override
+//            public String getFilename() {
+//                return "photo.jpg";
+//            }
+//        };
+//    }
 
 //    private static Path createPhotoFile(byte[] array) throws IOException {
 //        File file = File.createTempFile("photo", "jpg");

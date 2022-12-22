@@ -3,7 +3,6 @@ package ru.itmo.botcomparinator.bot.handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -28,13 +27,13 @@ public class MessageHandler {
         String chatId = message.getChatId().toString();
 
         if (message.hasDocument()) {
-//            if (!isValidFileFormat(message.getDocument())) {
-//                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
-//            }
-//            if (categoryService.isCategorySelected(chatId)) {
+            if (!isValidFileFormat(message.getDocument())) {
+                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
+            }
+            if (categoryService.isCategorySelected(chatId)) {
                 return sendPhoto(chatId, message.getDocument().getFileId());
-//            }
-//            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
+            }
+            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
         }
 
         String inputText = message.getText();
