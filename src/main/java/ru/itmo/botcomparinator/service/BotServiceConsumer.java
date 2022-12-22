@@ -15,8 +15,8 @@ import java.io.ByteArrayInputStream;
 @RequiredArgsConstructor
 public class BotServiceConsumer {
     private final PhotoBot photoBot;
+
     @KafkaListener(groupId = "photo-bot", topics = "response_compare_topic")
-    @SneakyThrows
     public void consumePhotoResponse(ResultDto resultDto) {
         SendPhoto photo = new SendPhoto();
         photo.setPhoto(new InputFile(new ByteArrayInputStream(resultDto.getResponsePhoto()), "photo"));

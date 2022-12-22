@@ -27,13 +27,13 @@ public class MessageHandler {
         String chatId = message.getChatId().toString();
 
         if (message.hasDocument()) {
-//            if (!isValidFileFormat(message.getDocument())) {
-//                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
-//            }
-//            if (categoryService.isCategorySelected(chatId)) {
-                return sendPhoto(chatId, message.getDocument().getFileId(), message.getCaption());
-//            }
-//            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
+            if (!isValidFileFormat(message.getDocument())) {
+                return new SendMessage(chatId, ErrorMessage.INCORRECT_DOC_FORMAT_MESSAGE.getMessage());
+            }
+            if (categoryService.isCategorySelected(chatId)) {
+                return sendPhoto(chatId, message.getDocument().getFileId());
+            }
+            return new SendMessage(chatId, ErrorMessage.CATEGORY_IS_NOT_SELECTED.getMessage());
         }
 
         String inputText = message.getText();
@@ -66,9 +66,9 @@ public class MessageHandler {
         return sendMessage;
     }
 
-    private SendMessage sendPhoto(String chatId, String photoId, String caption) {
+    private SendMessage sendPhoto(String chatId, String photoId) {
         try {
-            botServiceProducer.sendPhoto(chatId, photoId, categoryService.getCategory(chatId), caption);
+            botServiceProducer.sendPhoto(chatId, photoId, categoryService.getCategory(chatId));
             categoryService.deleteCategory(chatId);
             return new SendMessage(chatId, BotMessage.WAIT_MESSAGE.getText());
         } catch (Exception e) {

@@ -30,15 +30,11 @@ public class YandexFaceWorker extends MessageListenerAdapter {
     @KafkaListener(groupId = "photo-bot", topics = "request_compare_topic")
     public void consumePhotoRequest(PhotoDto photoDto) {
         BigInteger currentPhotoHash = imageComparatorService.getImageHash(photoDto.getPhotoData());
-        System.out.println("Current photo");
-        System.out.println(currentPhotoHash);
         List<ImageEntity> photosFromDb = imageComparatorService.getPhotosByCategory(photoDto.getCategory());
         BigInteger min = imageComparatorService.compareImage(photosFromDb.get(0).getPhoto(), currentPhotoHash);
         ImageEntity selectedPhoto = photosFromDb.get(0);
         for (ImageEntity imageEntity : photosFromDb) {
             BigInteger difference = imageComparatorService.compareImage(imageEntity.getPhoto(), currentPhotoHash);
-            System.out.println(min);
-            System.out.println(difference);
             if (min.compareTo(difference) > 0) {
                 min = difference;
                 selectedPhoto = imageEntity;
@@ -48,7 +44,6 @@ public class YandexFaceWorker extends MessageListenerAdapter {
         resultDto.setChatId(photoDto.getChatId());
         resultDto.setCaption(selectedPhoto.getDescription());
         resultDto.setResponsePhoto(selectedPhoto.getPhoto());
-        System.out.println("Send to kafka queue response photo");
         kafkaYandexWorkerTemplate.send("response_compare_topic", resultDto);
     }
 }

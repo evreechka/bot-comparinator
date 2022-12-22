@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -16,6 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.itmo.botcomparinator.bot.handler.CallbackQueryHandler;
 import ru.itmo.botcomparinator.bot.handler.MessageHandler;
 import ru.itmo.botcomparinator.config.TelegramConfigProperties;
+
 @Getter
 @Setter
 @Component
@@ -26,10 +26,10 @@ public class PhotoBot extends TelegramLongPollingBot {
     private MessageHandler messageHandler;
     private CallbackQueryHandler callbackQueryHandler;
 
-        public PhotoBot(TelegramBotsApi telegramBotsApi,
-                        MessageHandler messageHandler,
-                        CallbackQueryHandler callbackQueryHandler,
-                        TelegramConfigProperties telegramConfigProperties) throws TelegramApiException {
+    public PhotoBot(TelegramBotsApi telegramBotsApi,
+                    MessageHandler messageHandler,
+                    CallbackQueryHandler callbackQueryHandler,
+                    TelegramConfigProperties telegramConfigProperties) throws TelegramApiException {
         this.messageHandler = messageHandler;
         this.callbackQueryHandler = callbackQueryHandler;
         this.botUsername = telegramConfigProperties.getUsername();
